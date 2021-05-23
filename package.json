@@ -80,21 +80,21 @@
       "editor/title/run": [
         {
           "command": "extension.apl-debug.runEditorContents",
-          "when": "resourceLangId == markdown"
+          "when": "resourceLangId == apl"
         },
         {
           "command": "extension.apl-debug.debugEditorContents",
-          "when": "resourceLangId == markdown"
+          "when": "resourceLangId == apl"
         }
       ],
       "commandPalette": [
         {
           "command": "extension.apl-debug.debugEditorContents",
-          "when": "resourceLangId == markdown"
+          "when": "resourceLangId == apl"
         },
         {
           "command": "extension.apl-debug.runEditorContents",
-          "when": "resourceLangId == markdown"
+          "when": "resourceLangId == apl"
         }
       ],
       "debug/variables/context": [
@@ -126,14 +126,14 @@
     ],
     "breakpoints": [
       {
-        "language": "markdown"
+        "language": "apl"
       }
     ],
     "debuggers": [
       {
         "type": "apl",
         "languages": [
-          "markdown"
+          "apl"
         ],
         "label": "Apl Debug",
         "program": "./out/debugAdapter.js",
@@ -174,7 +174,7 @@
         "configurationSnippets": [
           {
             "label": "Apl Debug: Launch",
-            "description": "A new configuration for 'debugging' a user selected markdown file.",
+            "description": "A new configuration for 'debugging' a user selected apl file.",
             "body": {
               "type": "apl",
               "request": "launch",

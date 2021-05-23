@@ -52,8 +52,8 @@ export function activateAplDebug(context: vscode.ExtensionContext, factory?: vsc
 
 	context.subscriptions.push(vscode.commands.registerCommand('extension.apl-debug.getProgramName', config => {
 		return vscode.window.showInputBox({
-			placeHolder: "Please enter the name of a markdown file in the workspace folder",
-			value: "readme.md"
+			placeHolder: "Please enter the name of a apl file in the workspace folder",
+			value: "readme.apl"
 		});
 	}));
 
@@ -96,7 +96,7 @@ export function activateAplDebug(context: vscode.ExtensionContext, factory?: vsc
 	}
 
 	// override VS Code's default implementation of the debug hover
-	context.subscriptions.push(vscode.languages.registerEvaluatableExpressionProvider('markdown', {
+	context.subscriptions.push(vscode.languages.registerEvaluatableExpressionProvider('apl', {
 		provideEvaluatableExpression(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.EvaluatableExpression> {
 			const wordRange = document.getWordRangeAtPosition(position);
 			return wordRange ? new vscode.EvaluatableExpression(wordRange) : undefined;
@@ -104,7 +104,7 @@ export function activateAplDebug(context: vscode.ExtensionContext, factory?: vsc
 	}));
 
 	// override VS Code's default implementation of the "inline values" feature"
-	context.subscriptions.push(vscode.languages.registerInlineValuesProvider('markdown', {
+	context.subscriptions.push(vscode.languages.registerInlineValuesProvider('apl', {
 
 		provideInlineValues(document: vscode.TextDocument, viewport: vscode.Range, context: vscode.InlineValueContext) : vscode.ProviderResult<vscode.InlineValue[]> {
 
@@ -147,7 +147,7 @@ class AplConfigurationProvider implements vscode.DebugConfigurationProvider {
 		// if launch.json is missing or empty
 		if (!config.type && !config.request && !config.name) {
 			const editor = vscode.window.activeTextEditor;
-			if (editor && editor.document.languageId === 'markdown') {
+			if (editor && editor.document.languageId === 'apl') {
 				config.type = 'apl';
 				config.name = 'Launch';
 				config.request = 'launch';

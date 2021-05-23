@@ -7,8 +7,8 @@
 		{
 			"type": "apl",
 			"request": "launch",
-			"name": "Debug test.md",
-			"program": "${workspaceFolder}/test.md",
+			"name": "Debug test.apl",
+			"program": "${workspaceFolder}/test.apl",
 			"stopOnEntry": true,
 			"trace": false
 		}
