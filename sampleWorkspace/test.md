@@ -1,11 +1,11 @@
-# VS Code Mock Debug
+# VS Code Apl Debug
 
-Mock Debug local_i allows to "debug" markdown files (like this).
+Apl Debug local_i allows to "debug" markdown files (like this).
 The text of the markdown is considered the "program to debug" and certain keywords trigger specific functionality:
 
 * if debugging stops on a line, the line becomes a stack in the CALL STACK with the words shown as frames.
   Here is a long stack trace: a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z.
-* Variables are just synthesized by Mock Debug, they do not originate from the markdown file.
+* Variables are just synthesized by Apl Debug, they do not originate from the markdown file.
 
 ## Inline Values
 
@@ -16,8 +16,8 @@ And these with different casing: Local_I, LOCAL_S
 
 ## Breakpoints:
 
-Breakpoints can be set in the breakpoint gutter of the editor (even before a Mock Debug session was started).
-If a Mock Debug session is active, breakpoints are "validated" according these rules:
+Breakpoints can be set in the breakpoint gutter of the editor (even before a Apl Debug session was started).
+If a Apl Debug session is active, breakpoints are "validated" according these rules:
 
 * if a line is empty or starts with `+` we don't allow to set a breakpoint but move the breakpoint down
 * if a line starts with `-` we don't allow to set a breakpoint but move the breakpoint up

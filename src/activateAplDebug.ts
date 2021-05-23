@@ -6,20 +6,20 @@
 
 import * as vscode from 'vscode';
 import { WorkspaceFolder, DebugConfiguration, ProviderResult, CancellationToken } from 'vscode';
-import { MockDebugSession } from './mockDebug';
-import { FileAccessor } from './mockRuntime';
+import { AplDebugSession } from './aplDebug';
+import { FileAccessor } from './aplRuntime';
 
-export function activateMockDebug(context: vscode.ExtensionContext, factory?: vscode.DebugAdapterDescriptorFactory) {
+export function activateAplDebug(context: vscode.ExtensionContext, factory?: vscode.DebugAdapterDescriptorFactory) {
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('extension.mock-debug.runEditorContents', (resource: vscode.Uri) => {
+		vscode.commands.registerCommand('extension.apl-debug.runEditorContents', (resource: vscode.Uri) => {
 			let targetResource = resource;
 			if (!targetResource && vscode.window.activeTextEditor) {
 				targetResource = vscode.window.activeTextEditor.document.uri;
 			}
 			if (targetResource) {
 				vscode.debug.startDebugging(undefined, {
-						type: 'mock',
+						type: 'apl',
 						name: 'Run File',
 						request: 'launch',
 						program: targetResource.fsPath
@@ -28,21 +28,21 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 				);
 			}
 		}),
-		vscode.commands.registerCommand('extension.mock-debug.debugEditorContents', (resource: vscode.Uri) => {
+		vscode.commands.registerCommand('extension.apl-debug.debugEditorContents', (resource: vscode.Uri) => {
 			let targetResource = resource;
 			if (!targetResource && vscode.window.activeTextEditor) {
 				targetResource = vscode.window.activeTextEditor.document.uri;
 			}
 			if (targetResource) {
 				vscode.debug.startDebugging(undefined, {
-					type: 'mock',
+					type: 'apl',
 					name: 'Debug File',
 					request: 'launch',
 					program: targetResource.fsPath
 				});
 			}
 		}),
-		vscode.commands.registerCommand('extension.mock-debug.toggleFormatting', (variable) => {
+		vscode.commands.registerCommand('extension.apl-debug.toggleFormatting', (variable) => {
 			const ds = vscode.debug.activeDebugSession;
 			if (ds) {
 				ds.customRequest('toggleFormatting');
@@ -50,37 +50,37 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 		})
 	);
 
-	context.subscriptions.push(vscode.commands.registerCommand('extension.mock-debug.getProgramName', config => {
+	context.subscriptions.push(vscode.commands.registerCommand('extension.apl-debug.getProgramName', config => {
 		return vscode.window.showInputBox({
 			placeHolder: "Please enter the name of a markdown file in the workspace folder",
 			value: "readme.md"
 		});
 	}));
 
-	// register a configuration provider for 'mock' debug type
-	const provider = new MockConfigurationProvider();
-	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('mock', provider));
+	// register a configuration provider for 'apl' debug type
+	const provider = new AplConfigurationProvider();
+	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('apl', provider));
 
-	// register a dynamic configuration provider for 'mock' debug type
-	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('mock', {
+	// register a dynamic configuration provider for 'apl' debug type
+	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('apl', {
 		provideDebugConfigurations(folder: WorkspaceFolder | undefined): ProviderResult<DebugConfiguration[]> {
 			return [
 				{
 					name: "Dynamic Launch",
 					request: "launch",
-					type: "mock",
+					type: "apl",
 					program: "${file}"
 				},
 				{
 					name: "Another Dynamic Launch",
 					request: "launch",
-					type: "mock",
+					type: "apl",
 					program: "${file}"
 				},
 				{
-					name: "Mock Launch",
+					name: "Apl Launch",
 					request: "launch",
-					type: "mock",
+					type: "apl",
 					program: "${file}"
 				}
 			];
@@ -90,7 +90,7 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 	if (!factory) {
 		factory = new InlineDebugAdapterFactory();
 	}
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory('mock', factory));
+	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory('apl', factory));
 	if ('dispose' in factory) {
 		context.subscriptions.push(factory);
 	}
@@ -136,7 +136,7 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 	}));
 }
 
-class MockConfigurationProvider implements vscode.DebugConfigurationProvider {
+class AplConfigurationProvider implements vscode.DebugConfigurationProvider {
 
 	/**
 	 * Massage a debug configuration just before a debug session is being launched,
@@ -148,7 +148,7 @@ class MockConfigurationProvider implements vscode.DebugConfigurationProvider {
 		if (!config.type && !config.request && !config.name) {
 			const editor = vscode.window.activeTextEditor;
 			if (editor && editor.document.languageId === 'markdown') {
-				config.type = 'mock';
+				config.type = 'apl';
 				config.name = 'Launch';
 				config.request = 'launch';
 				config.program = '${file}';
@@ -189,6 +189,6 @@ export const workspaceFileAccessor: FileAccessor = {
 class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
 
 	createDebugAdapterDescriptor(_session: vscode.DebugSession): ProviderResult<vscode.DebugAdapterDescriptor> {
-		return new vscode.DebugAdapterInlineImplementation(new MockDebugSession(workspaceFileAccessor));
+		return new vscode.DebugAdapterInlineImplementation(new AplDebugSession(workspaceFileAccessor));
 	}
 }

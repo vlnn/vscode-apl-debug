@@ -1,6 +1,6 @@
 {
-  "name": "mock-debug",
-  "displayName": "Mock Debug",
+  "name": "apl-debug",
+  "displayName": "Apl Debug",
   "version": "0.45.8",
   "publisher": "andreweinand",
   "description": "Starter extension for developing debug adapters for VS Code.",
@@ -15,17 +15,17 @@
   "engines": {
     "vscode": "^1.55.0"
   },
-  "icon": "images/mock-debug-icon.png",
+  "icon": "images/apl-debug-icon.png",
   "categories": [
     "Debuggers"
   ],
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/vscode-mock-debug.git"
+    "url": "https://github.com/Microsoft/vscode-apl-debug.git"
   },
   "bugs": {
-    "url": "https://github.com/Microsoft/vscode-mock-debug/issues"
+    "url": "https://github.com/Microsoft/vscode-apl-debug/issues"
   },
   "scripts": {
     "vscode:prepublish": "yarn run package-ext && yarn run package-web",
@@ -66,11 +66,11 @@
   "main": "./dist/ext/extension.js",
   "browser": "./dist/web/extension.js",
   "activationEvents": [
-    "onDebugResolve:mock",
-    "onDebugDynamicConfigurations:mock",
-    "onCommand:extension.mock-debug.getProgramName",
-    "onCommand:extension.mock-debug.runEditorContents",
-    "onCommand:extension.mock-debug.debugEditorContents"
+    "onDebugResolve:apl",
+    "onDebugDynamicConfigurations:apl",
+    "onCommand:extension.apl-debug.getProgramName",
+    "onCommand:extension.apl-debug.runEditorContents",
+    "onCommand:extension.apl-debug.debugEditorContents"
   ],
   "workspaceTrust": {
     "request": "never"
@@ -79,48 +79,48 @@
     "menus": {
       "editor/title/run": [
         {
-          "command": "extension.mock-debug.runEditorContents",
+          "command": "extension.apl-debug.runEditorContents",
           "when": "resourceLangId == markdown"
         },
         {
-          "command": "extension.mock-debug.debugEditorContents",
+          "command": "extension.apl-debug.debugEditorContents",
           "when": "resourceLangId == markdown"
         }
       ],
       "commandPalette": [
         {
-          "command": "extension.mock-debug.debugEditorContents",
+          "command": "extension.apl-debug.debugEditorContents",
           "when": "resourceLangId == markdown"
         },
         {
-          "command": "extension.mock-debug.runEditorContents",
+          "command": "extension.apl-debug.runEditorContents",
           "when": "resourceLangId == markdown"
         }
       ],
       "debug/variables/context": [
         {
-          "command": "extension.mock-debug.toggleFormatting",
-          "when": "debugType == 'mock' && debugProtocolVariableMenuContext == 'simple'"
+          "command": "extension.apl-debug.toggleFormatting",
+          "when": "debugType == 'apl' && debugProtocolVariableMenuContext == 'simple'"
         }
       ]
     },
     "commands": [
       {
-        "command": "extension.mock-debug.debugEditorContents",
+        "command": "extension.apl-debug.debugEditorContents",
         "title": "Debug File",
-        "category": "Mock Debug",
+        "category": "Apl Debug",
         "enablement": "!inDebugMode",
         "icon": "$(debug-alt)"
       },
       {
-        "command": "extension.mock-debug.runEditorContents",
+        "command": "extension.apl-debug.runEditorContents",
         "title": "Run File",
-        "category": "Mock Debug",
+        "category": "Apl Debug",
         "enablement": "!inDebugMode",
         "icon": "$(play)"
       },
       {
-        "command": "extension.mock-debug.toggleFormatting",
+        "command": "extension.apl-debug.toggleFormatting",
         "title": "Toggle between decimal and hex formatting"
       }
     ],
@@ -131,9 +131,11 @@
     ],
     "debuggers": [
       {
-        "type": "mock",
-        "languages": ["markdown"],
-        "label": "Mock Debug",
+        "type": "apl",
+        "languages": [
+          "markdown"
+        ],
+        "label": "Apl Debug",
         "program": "./out/debugAdapter.js",
         "runtime": "node",
         "configurationAttributes": {
@@ -162,7 +164,7 @@
         },
         "initialConfigurations": [
           {
-            "type": "mock",
+            "type": "apl",
             "request": "launch",
             "name": "Ask for file name",
             "program": "${workspaceFolder}/${command:AskForProgramName}",
@@ -171,10 +173,10 @@
         ],
         "configurationSnippets": [
           {
-            "label": "Mock Debug: Launch",
+            "label": "Apl Debug: Launch",
             "description": "A new configuration for 'debugging' a user selected markdown file.",
             "body": {
-              "type": "mock",
+              "type": "apl",
               "request": "launch",
               "name": "Ask for file name",
               "program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
@@ -183,7 +185,7 @@
           }
         ],
         "variables": {
-          "AskForProgramName": "extension.mock-debug.getProgramName"
+          "AskForProgramName": "extension.apl-debug.getProgramName"
         }
       }
     ]
